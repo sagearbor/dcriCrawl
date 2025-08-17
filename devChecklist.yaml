@@ -1,6 +1,6 @@
 project_name: "AI Usage & Data Policy Web Crawler"
 description: "A Python-based solution to crawl organizational websites, detect AI usage, and extract related data usage policies, presenting the findings in a filterable web interface with AI-powered search and shareable, URL-based filters."
-version: 4.0
+version: 5.0
 
 phases:
   - phase: 1. Project Setup
@@ -13,7 +13,7 @@ phases:
         sub_tasks:
           - "Create a virtual environment: `python -m venv venv`."
           - "Create `requirements.txt` file."
-          - "Add libraries: `playwright`, `beautifulsoup4`, `pandas`, `streamlit`, `spacy`, `sqlalchemy`, `google-generativeai`."
+          - "Add libraries: `playwright`, `beautifulsoup4`, `pandas`, `streamlit`, `spacy`, `sqlalchemy`, `google-generativeai`, `pytest`, `pytest-mock`."
           - "Install dependencies: `pip install -r requirements.txt`."
           - "Install Playwright browsers: `playwright install`."
           - "Download spaCy model: `python -m spacy download en_core_web_sm`."
@@ -23,83 +23,35 @@ phases:
         status: To Do # Status can be: To Do, In Progress, Done
 
   - phase: 2. Web Crawler Module (Playwright)
-    tasks:
-      - task: Implement Authentication Handler
-        description: "Handle websites that require login, starting with a manual approach."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Implement Incremental Crawling & Change Detection
-        description: "Crawl only new or modified pages on subsequent runs."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Develop Web Crawler
-        description: "Create a crawler to navigate websites and extract all page URLs and content."
-        file: "src/crawler/spider.py"
-        sub_tasks:
-          - "Ensure the crawler saves every discovered URL to build a complete site map."
-          - "Save the raw data (URL, HTML content, timestamp) to `data/crawled_data.jsonl`."
-        status: To Do # Status can be: To Do, In Progress, Done
-
+    # ... (tasks remain the same)
   - phase: 3. Content Analysis Module
-    tasks:
-      - task: Implement AI & Policy Keyword Detection
-        description: "Develop functions to scan page text for AI and data policy keywords."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Create Analysis Pipeline Script
-        description: "A script to process the raw crawled data and perform analysis."
-        status: To Do # Status can be: To Do, In Progress, Done
-
+    # ... (tasks remain the same)
   - phase: 4. Data Aggregation & Storage
-    tasks:
-      - task: Aggregate Data by Domain
-        description: "Process the page-level analysis to create a final summary for each root domain."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Store Final Report
-        description: "Save the aggregated data to a spreadsheet-ready CSV file."
-        status: To Do # Status can be: To Do, In Progress, Done
-
+    # ... (tasks remain the same)
   - phase: 5. Frontend Display (Streamlit Multi-Page App)
-    tasks:
-      - task: Structure Multi-Page Application
-        description: "Set up the main Streamlit app with a sidebar for page navigation."
-        file: "app.py"
-        sub_tasks:
-          - "Create a main `app.py` file to act as the entry point."
-          - "Create a `pages/` directory to hold the different app pages."
-          - "Implement a sidebar with `st.sidebar.radio` to switch between 'AI Policy Dashboard', 'AI Search', and 'Site Map'."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Build 'AI Policy Dashboard' Page with URL Filters
-        description: "Create the primary interface for filtering and viewing data, with filter states reflected in the URL."
-        file: "pages/1_Dashboard.py"
-        sub_tasks:
-          - "On page load, read filter values from the URL's query parameters using `st.query_params`."
-          - "Use these values to set the initial state of the filter widgets (e.g., checkbox, text input)."
-          - "Load the `ai_policy_report.csv` into a Pandas DataFrame and apply the initial filters."
-          - "Whenever a user changes a filter, update the URL query parameters using `st.query_params` to reflect the new state."
-          - "Display the filtered data in an interactive table with `st.dataframe()`."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Build 'AI Search' Page
-        description: "Create a page with an AI-powered search bar to query the crawled data."
-        file: "pages/2_AI_Search.py"
-        sub_tasks:
-          - "Add a text input (`st.text_input`) for the user to ask questions."
-          - "On submission, create a prompt for a generative AI model (like Gemini) that includes the user's question and the relevant text content from the crawled data."
-          - "Send the prompt to the AI model API."
-          - "Display the AI's response, ensuring that any mentioned sites are formatted as clickable hyperlinks (`[Site Name](URL)`)."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: Build 'Site Map' Page
-        description: "Create a page with a collapsible tree view of all crawled sites and pages."
-        file: "pages/3_Site_Map.py"
-        sub_tasks:
-          - "Load all crawled URLs from `data/crawled_data.jsonl`."
-          - "Process the URLs into a hierarchical dictionary structure (domain -> path -> sub-path)."
-          - "Write a recursive function that uses `st.expander` to render the tree."
-          - "Inside each expander, include a button to 'Expand All' children and a button to 'Collapse All' children for that level."
-        status: To Do # Status can be: To Do, In Progress, Done
-
+    # ... (tasks remain the same)
   - phase: 6. Execution & Documentation
+    # ... (tasks remain the same)
+
+  - phase: 7. Testing (Pytest)
     tasks:
-      - task: Create Main Runner Script
-        description: "A main entry point to orchestrate the entire pipeline."
+      - task: Develop Unit Tests for Core Logic
+        description: "Create unit tests for individual functions to ensure they work as expected."
+        file: "tests/"
+        sub_tasks:
+          - "Create `tests/` directory."
+          - "Write tests for the analyzer module (`test_analyzer.py`) using mock text data as input."
+          - "Write tests for the aggregator module (`test_aggregator.py`) using mock analysis JSON data."
         status: To Do # Status can be: To Do, In Progress, Done
-      - task: Write Documentation
-        description: "Create a README.md file with setup and usage instructions."
+      - task: Implement Mocking for External Services
+        description: "Use mocking to isolate tests from external dependencies like networks and APIs."
+        sub_tasks:
+          - "Use `pytest-mock` to simulate the generative AI API call in the 'AI Search' page. This allows testing the frontend logic without making real API calls and incurring costs."
+          - "Mock Playwright browser interactions to test the crawler's link-finding and data-extraction logic without actually hitting the network."
+        status: To Do # Status can be: To Do, In Progress, Done
+      - task: Configure Test Runner
+        description: "Ensure tests can be discovered and run easily."
+        sub_tasks:
+          - "Add a `pytest.ini` file if needed for custom configurations."
+          - "Update the README.md with instructions on how to run the test suite."
         status: To Do # Status can be: To Do, In Progress, Done
