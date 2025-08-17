@@ -1,4 +1,4 @@
-# dcriCrawl - AI Usage & Data Policy Web Crawler
+AI Usage & Data Policy Web Crawler
 A Python-based solution to crawl organizational websites, detect AI usage, and extract related data usage policies. The findings are presented in a filterable, multi-page web interface with AI-powered search and shareable, URL-based filters.
 
 Features
@@ -38,6 +38,9 @@ Project Structure
 │   ├── analyzer/
 │   │   └── detector.py
 │   └── aggregator.py
+├── tests/
+│   ├── test_analyzer.py    # Pytests for the analysis module
+│   └── test_aggregator.py  # Pytests for the aggregator module
 ├── main.py                 # Main runner script to orchestrate the pipeline
 ├── requirements.txt        # Python dependencies
 └── README.md               # This file
@@ -80,7 +83,6 @@ How to Run
 The application is run from the command line using main.py.
 
 Run the full pipeline (Crawl and Analyze):
-This command will start the crawler, which will then trigger the analysis and aggregation steps.
 
 python main.py --crawl
 
@@ -89,9 +91,15 @@ Run only the analysis (if crawling is already done):
 python main.py --analyze
 
 Launch the Web Application:
-Once the data has been crawled and processed, you can view the results in the interactive dashboard.
 
 streamlit run app.py
+
+Testing
+This project uses pytest for testing. You can run all tests from the root directory.
+
+pytest
+
+Tests are located in the tests/ directory and use mock data to ensure functionality without requiring network access or API keys.
 
 Using the Application
 After launching the Streamlit app, you can navigate between the different pages using the sidebar:
