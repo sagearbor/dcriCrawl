@@ -1,0 +1,9 @@
+playwright
+beautifulsoup4
+pandas
+streamlit
+spacy
+sqlalchemy
+google-generativeai
+pytest
+pytest-mock
