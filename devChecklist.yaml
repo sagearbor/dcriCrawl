@@ -1,13 +1,14 @@
 project_name: "AI Usage & Data Policy Web Crawler"
 description: "A Python-based solution to crawl organizational websites, detect AI usage, and extract related data usage policies, presenting the findings in a filterable web interface with AI-powered search and shareable, URL-based filters."
-version: 6.0
+version: 8.0
 
 phases:
   - phase: 1. Project Setup
     tasks:
       - task: 1.1 Initialize Project Structure
-        description: "Create directories for source code, tests, data, and configuration."
+        description: "Create directories for source code, tests, data, logs, and configuration."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: []
       - task: 1.2 Setup Python Environment
         description: "Create a virtual environment and install dependencies from a requirements file."
         sub_tasks:
@@ -18,18 +19,22 @@ phases:
           - "1.2.5 Install Playwright browsers: `playwright install`."
           - "1.2.6 Download spaCy model: `python -m spacy download en_core_web_sm`."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["1.1"]
       - task: 1.3 Create Configuration Files
         description: "Set up a configuration file for settings and the input URL list."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["1.1"]
 
   - phase: 2. Web Crawler Module (Playwright)
     tasks:
       - task: 2.1 Implement Authentication Handler
         description: "Handle websites that require login, starting with a manual approach."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["1.2", "1.3"]
       - task: 2.2 Implement Incremental Crawling & Change Detection
         description: "Crawl only new or modified pages on subsequent runs."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["1.2", "1.3"]
       - task: 2.3 Develop Web Crawler
         description: "Create a crawler to navigate websites and extract all page URLs and content."
         file: "src/crawler/spider.py"
@@ -37,92 +42,76 @@ phases:
           - "2.3.1 Ensure the crawler saves every discovered URL to build a complete site map."
           - "2.3.2 Save the raw data (URL, HTML content, timestamp) to `data/crawled_data.jsonl`."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["2.1", "2.2"]
+      - task: 2.4 Write and Pass Mocked Tests for Crawler
+        description: "Use pytest-mock to test the crawler's link-finding and data-extraction logic without hitting the network."
+        status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["2.3"]
 
   - phase: 3. Content Analysis Module
     tasks:
       - task: 3.1 Implement AI & Policy Keyword Detection
         description: "Develop functions to scan page text for AI and data policy keywords."
         status: To Do # Status can be: To Do, In Progress, Done
-      - task: 3.2 Create Analysis Pipeline Script
+        dependencies: ["1.2"]
+      - task: 3.2 Write and Pass Unit Tests for Keyword Detection
+        description: "Create unit tests for the analyzer module (`test_analyzer.py`) using mock text data as input."
+        status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["3.1"]
+      - task: 3.3 Create Analysis Pipeline Script
         description: "A script to process the raw crawled data and perform analysis."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["2.3", "3.2"]
 
   - phase: 4. Data Aggregation & Storage
     tasks:
       - task: 4.1 Aggregate Data by Domain
         description: "Process the page-level analysis to create a final summary for each root domain."
         status: To Do # Status can be: To Do, In Progress, Done
-      - task: 4.2 Store Final Report
+        dependencies: ["3.3"]
+      - task: 4.2 Write and Pass Unit Tests for Aggregator
+        description: "Create unit tests for the aggregator module (`test_aggregator.py`) using mock analysis JSON data."
+        status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["4.1"]
+      - task: 4.3 Store Final Report
         description: "Save the aggregated data to a spreadsheet-ready CSV file."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["4.2"]
 
   - phase: 5. Frontend Display (Streamlit Multi-Page App)
     tasks:
       - task: 5.1 Structure Multi-Page Application
         description: "Set up the main Streamlit app with a sidebar for page navigation."
-        file: "app.py"
-        sub_tasks:
-          - "5.1.1 Create a main `app.py` file to act as the entry point."
-          - "5.1.2 Create a `pages/` directory to hold the different app pages."
-          - "5.1.3 Implement a sidebar with `st.sidebar.radio` to switch between 'AI Policy Dashboard', 'AI Search', and 'Site Map'."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["1.2"]
       - task: 5.2 Build 'AI Policy Dashboard' Page with URL Filters
         description: "Create the primary interface for filtering and viewing data, with filter states reflected in the URL."
-        file: "pages/1_Dashboard.py"
-        sub_tasks:
-          - "5.2.1 On page load, read filter values from the URL's query parameters using `st.query_params`."
-          - "5.2.2 Use these values to set the initial state of the filter widgets (e.g., checkbox, text input)."
-          - "5.2.3 Load the `ai_policy_report.csv` into a Pandas DataFrame and apply the initial filters."
-          - "5.2.4 Whenever a user changes a filter, update the URL query parameters using `st.query_params` to reflect the new state."
-          - "5.2.5 Display the filtered data in an interactive table with `st.dataframe()`."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["4.3", "5.1"]
       - task: 5.3 Build 'AI Search' Page
         description: "Create a page with an AI-powered search bar to query the crawled data."
-        file: "pages/2_AI_Search.py"
-        sub_tasks:
-          - "5.3.1 Add a text input (`st.text_input`) for the user to ask questions."
-          - "5.3.2 On submission, create a prompt for a generative AI model (like Gemini) that includes the user's question and the relevant text content from the crawled data."
-          - "5.3.3 Send the prompt to the AI model API."
-          - "5.3.4 Display the AI's response, ensuring that any mentioned sites are formatted as clickable hyperlinks (`[Site Name](URL)`)."
         status: To Do # Status can be: To Do, In Progress, Done
-      - task: 5.4 Build 'Site Map' Page
+        dependencies: ["2.3", "5.1"]
+      - task: 5.4 Write and Pass Mocked Tests for AI Search UI
+        description: "Use pytest-mock to simulate the generative AI API call to test the UI logic without making real API calls."
+        status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["5.3"]
+      - task: 5.5 Build 'Site Map' Page
         description: "Create a page with a collapsible tree view of all crawled sites and pages."
-        file: "pages/3_Site_Map.py"
-        sub_tasks:
-          - "5.4.1 Load all crawled URLs from `data/crawled_data.jsonl`."
-          - "5.4.2 Process the URLs into a hierarchical dictionary structure (domain -> path -> sub-path)."
-          - "5.4.3 Write a recursive function that uses `st.expander` to render the tree."
-          - "5.4.4 Inside each expander, include a button to 'Expand All' children and a button to 'Collapse All' children for that level."
         status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["2.3", "5.1"]
 
   - phase: 6. Execution & Documentation
     tasks:
       - task: 6.1 Create Main Runner Script
         description: "A main entry point to orchestrate the entire pipeline."
         status: To Do # Status can be: To Do, In Progress, Done
-      - task: 6.2 Write Documentation
-        description: "Create a README.md file with setup and usage instructions."
+        dependencies: ["4.3"]
+      - task: 6.2 Create Test Runner & Logging Script
+        description: "Create a script (`run_tests.sh` or similar) that executes all pytests and appends the timestamp and pass/fail status to `logs/test_log.txt`."
         status: To Do # Status can be: To Do, In Progress, Done
-
-  - phase: 7. Testing (Pytest)
-    tasks:
-      - task: 7.1 Develop Unit Tests for Core Logic
-        description: "Create unit tests for individual functions to ensure they work as expected."
-        file: "tests/"
-        sub_tasks:
-          - "7.1.1 Create `tests/` directory."
-          - "7.1.2 Write tests for the analyzer module (`test_analyzer.py`) using mock text data as input."
-          - "7.1.3 Write tests for the aggregator module (`test_aggregator.py`) using mock analysis JSON data."
+        dependencies: ["2.4", "3.2", "4.2", "5.4"]
+      - task: 6.3 Write Documentation
+        description: "Create a README.md file with setup and usage instructions, including how to run tests."
         status: To Do # Status can be: To Do, In Progress, Done
-      - task: 7.2 Implement Mocking for External Services
-        description: "Use mocking to isolate tests from external dependencies like networks and APIs."
-        sub_tasks:
-          - "7.2.1 Use `pytest-mock` to simulate the generative AI API call in the 'AI Search' page. This allows testing the frontend logic without making real API calls and incurring costs."
-          - "7.2.2 Mock Playwright browser interactions to test the crawler's link-finding and data-extraction logic without actually hitting the network."
-        status: To Do # Status can be: To Do, In Progress, Done
-      - task: 7.3 Configure Test Runner
-        description: "Ensure tests can be discovered and run easily."
-        sub_tasks:
-          - "7.3.1 Add a `pytest.ini` file if needed for custom configurations."
-          - "7.3.2 Update the README.md with instructions on how to run the test suite."
-        status: To Do # Status can be: To Do, In Progress, Done
+        dependencies: ["6.1", "6.2"]
