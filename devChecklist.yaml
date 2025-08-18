@@ -94,7 +94,7 @@ phases:
         dependencies: ["1.3"]
       - task: 5.2 Build 'AI Policy Dashboard' Page with URL Filters
         description: "Create the primary interface for filtering and viewing data, with filter states reflected in the URL."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["4.3", "5.1"]
       - task: 5.3 Build 'AI Search' Page
         description: "Create a page with an AI-powered search bar to query the crawled data."
