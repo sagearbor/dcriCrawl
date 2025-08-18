@@ -98,15 +98,15 @@ phases:
         dependencies: ["4.3", "5.1"]
       - task: 5.3 Build 'AI Search' Page
         description: "Create a page with an AI-powered search bar to query the crawled data."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["2.3", "5.1"]
       - task: 5.4 Write and Pass Mocked Tests for AI Search UI
         description: "Use pytest-mock to simulate the generative AI API call to test the UI logic without making real API calls."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["5.3"]
       - task: 5.5 Build 'Site Map' Page
         description: "Create a page with a collapsible tree view of all crawled sites and pages."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["2.3", "5.1"]
 
   - phase: 6. Execution & Documentation
