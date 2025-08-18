@@ -10,4 +10,4 @@ Follow these rules when contributing:
 - Adhere to PEP 8 style and include type hints where possible.
 - Run `pytest` after making changes and document the results in your final report.
 - Ensure the working tree is clean and all tests pass before finishing.
-- When recapping completed work, list phases, tasks, subtasks, and their statuses as bullet points.
+- When recapping completed work, list phases, tasks, subtasks (just the ones that were modified during this current instance effort) and their statuses as bullet points.
