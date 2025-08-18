@@ -24,7 +24,8 @@ This section provides the fastest way for a developer to get the project up and 
   pip install -r requirements.txt
   ```
   
-<!-- or install 4&5 below in one command line with : playwright install --with-deps && python -m spacy download en_core_web_sm -->
+
+> Below 4&5, OR install 4 & 5 below in one command line with: `playwright install --with-deps && python -m spacy download en_core_web_sm`
 4. **Install Playwright browsers with system dependencies:**
   
   ```
