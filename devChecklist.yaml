@@ -1,6 +1,6 @@
 project_name: "AI Usage & Data Policy Web Crawler"
 description: "A Python-based solution to crawl organizational websites, detect AI usage, and extract related data usage policies, presenting the findings in a filterable web interface with AI-powered search and shareable, URL-based filters."
-version: 9.0
+version: 10.0
 
 phases:
   - phase: 1. Project Setup
@@ -123,3 +123,22 @@ phases:
         description: "Create a README.md file with setup and usage instructions, including how to run tests."
         status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["6.1", "6.2"]
+
+  - phase: 7. Quality Enhancements
+    tasks:
+      - task: 7.1 Improve Link Extraction
+        description: "Ensure crawler extracts unique HTTP(S) links only."
+        file: "src/crawler/spider.py"
+        sub_tasks:
+          - "7.1.1 Ignore non-HTTP(S) links and duplicates in spider.extract_links."
+          - "7.1.2 Update tests for link extraction."
+        status: Done # Status can be: To Do, In Progress, Done
+        dependencies: ["2.3"]
+      - task: 7.2 Add Minimum Page Filter to Aggregator
+        description: "Allow aggregator to skip domains with page counts below a threshold."
+        file: "src/aggregator/aggregator.py"
+        sub_tasks:
+          - "7.2.1 Add min_pages parameter to aggregate_by_domain and aggregate_and_save."
+          - "7.2.2 Update aggregator tests to cover filtering."
+        status: Done # Status can be: To Do, In Progress, Done
+        dependencies: ["4.1"]

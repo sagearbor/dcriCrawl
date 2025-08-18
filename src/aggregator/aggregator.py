@@ -10,11 +10,13 @@ from urllib.parse import urlparse
 
 def aggregate_by_domain(
     input_file: str = "data/analysis_results.jsonl",
+    min_pages: int = 1,
 ) -> Dict[str, Dict[str, Any]]:
     """Aggregate analysis results by root domain.
 
     Args:
         input_file: Path to the JSONL file containing page-level analysis.
+        min_pages: Minimum number of pages required for a domain to be included.
 
     Returns:
         Mapping of domain to summary statistics including page count and unique keywords.
@@ -42,6 +44,13 @@ def aggregate_by_domain(
     for summary in aggregated.values():
         summary["ai_keywords"] = sorted(summary["ai_keywords"])
         summary["policy_keywords"] = sorted(summary["policy_keywords"])
+
+    # filter out domains with too few pages
+    aggregated = {
+        domain: data
+        for domain, data in aggregated.items()
+        if data["pages"] >= min_pages
+    }
 
     return aggregated
 
@@ -73,9 +82,10 @@ def save_aggregated_csv(
 def aggregate_and_save(
     input_file: str = "data/analysis_results.jsonl",
     output_file: str = "data/domain_summary.csv",
+    min_pages: int = 1,
 ) -> Dict[str, Dict[str, Any]]:
     """Convenience function to aggregate analysis results and save to CSV."""
-    aggregated = aggregate_by_domain(input_file)
+    aggregated = aggregate_by_domain(input_file, min_pages=min_pages)
     save_aggregated_csv(aggregated, output_file)
     return aggregated
 
