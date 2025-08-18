@@ -1,0 +1,4 @@
+user_agent: 'Mozilla/5.0 (compatible; dcriCrawl/1.0)'
+max_depth: 2
+output_file: 'data/crawled_data.jsonl'
+urls_file: 'data/urls_to_crawl.txt'
