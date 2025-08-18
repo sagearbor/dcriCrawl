@@ -113,13 +113,13 @@ phases:
     tasks:
       - task: 6.1 Create Main Runner Script
         description: "A main entry point to orchestrate the entire pipeline."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["4.3"]
       - task: 6.2 Create Test Runner & Logging Script
         description: "Create a script (`run_tests.sh` or similar) that executes all pytests and appends the timestamp and pass/fail status to `logs/test_log.txt`."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["2.4", "3.2", "4.2", "5.4"]
       - task: 6.3 Write Documentation
         description: "Create a README.md file with setup and usage instructions, including how to run tests."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["6.1", "6.2"]
