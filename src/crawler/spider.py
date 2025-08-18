@@ -58,8 +58,19 @@ class Spider:
     def extract_links(self, html: str, base_url: str) -> List[str]:
         soup = BeautifulSoup(html, "html.parser")
         links: List[str] = []
+        seen = set()
         for a in soup.find_all("a", href=True):
-            links.append(urllib.parse.urljoin(base_url, a["href"]))
+            raw_href = a["href"]
+            if raw_href.startswith("#"):
+                continue
+            href = urllib.parse.urljoin(base_url, raw_href)
+            parsed = urllib.parse.urlparse(href)
+            if parsed.scheme not in {"http", "https"}:
+                continue
+            if href in seen:
+                continue
+            seen.add(href)
+            links.append(href)
         return links
 
     def _save(self, url: str, html: str) -> None:

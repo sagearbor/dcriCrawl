@@ -11,14 +11,20 @@ from src.crawler.state_manager import StateManager
 
 
 def test_extract_links(tmp_path):
-    html = '<a href="/a">A</a><a href="https://example.com/b">B</a>'
+    html = (
+        "<a href='/a'>A</a>"  # relative link
+        "<a href='https://example.com/b'>B</a>"  # absolute link
+        "<a href='/a'>Duplicate</a>"  # duplicate should be ignored
+        "<a href='mailto:test@example.com'>Mail</a>"  # non-http should be ignored
+        "<a href='#section'>Anchor</a>"  # anchor should be ignored
+    )
     state = StateManager(
         state_file=str(tmp_path / "state.json"),
         site_map_file=str(tmp_path / "site_map.json"),
     )
     spider = Spider(state, output_file=str(tmp_path / "out.jsonl"))
     links = spider.extract_links(html, "https://example.com")
-    assert set(links) == {"https://example.com/a", "https://example.com/b"}
+    assert links == ["https://example.com/a", "https://example.com/b"]
 
 
 def test_incremental_and_site_map(tmp_path):

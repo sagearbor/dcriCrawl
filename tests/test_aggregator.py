@@ -34,6 +34,10 @@ def test_aggregate_by_domain_and_save(tmp_path):
     assert aggregated["other.com"]["pages"] == 1
     assert "artificial intelligence" in aggregated["other.com"]["ai_keywords"]
 
+    filtered = aggregate_by_domain(str(input_file), min_pages=2)
+    assert "other.com" not in filtered
+    assert filtered["example.com"]["pages"] == 2
+
     output_file = tmp_path / "report.csv"
     save_aggregated_csv(aggregated, str(output_file))
     content = output_file.read_text(encoding="utf-8").splitlines()
