@@ -75,15 +75,15 @@ phases:
     tasks:
       - task: 4.1 Aggregate Data by Domain
         description: "Process the page-level analysis to create a final summary for each root domain."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["3.3"]
       - task: 4.2 Write and Pass Unit Tests for Aggregator
         description: "Create unit tests for the aggregator module (`test_aggregator.py`) using mock analysis JSON data."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["4.1"]
       - task: 4.3 Store Final Report
         description: "Save the aggregated data to a spreadsheet-ready CSV file."
-        status: To Do # Status can be: To Do, In Progress, Done
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["4.2"]
 
   - phase: 5. Frontend Display (Streamlit Multi-Page App)
