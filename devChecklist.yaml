@@ -57,11 +57,13 @@ phases:
     tasks:
       - task: 3.1 Implement AI & Policy Keyword Detection
         description: "Develop functions to scan page text for AI and data policy keywords."
-        status: To Do # Status can be: To Do, In Progress, Done
+        file: "src/analyzer/keyword_detector.py"
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["1.3"]
       - task: 3.2 Write and Pass Unit Tests for Keyword Detection
         description: "Create unit tests for the analyzer module (`test_analyzer.py`) using mock text data as input."
-        status: To Do # Status can be: To Do, In Progress, Done
+        file: "tests/test_analyzer.py"
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["3.1"]
       - task: 3.3 Create Analysis Pipeline Script
         description: "A script to process the raw crawled data and perform analysis."
