@@ -67,7 +67,8 @@ phases:
         dependencies: ["3.1"]
       - task: 3.3 Create Analysis Pipeline Script
         description: "A script to process the raw crawled data and perform analysis."
-        status: To Do # Status can be: To Do, In Progress, Done
+        file: "src/analyzer/pipeline.py"
+        status: Done # Status can be: To Do, In Progress, Done
         dependencies: ["2.3", "3.2"]
 
   - phase: 4. Data Aggregation & Storage
